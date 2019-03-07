@@ -18,4 +18,8 @@ architecture arch of Nor8Way is
 begin
 
 
+q <=not(a or b or c or d or e or f or g or h);
+
+
+
 end architecture;
