@@ -41,49 +41,37 @@ architecture rtl of TopLevel is
 ---------------
 begin
  
-	HEX0 <= "1000000" when SW(0) = '0' and SW(1) = '0' and SW(2) = '0' and SW(3) = '0' else --0
-			  "1111001" when SW(0) = '1' and SW(1) = '0' and SW(2) = '0' and SW(3) = '0' else --1
-			  "0100100" when SW(0) = '0' and SW(1) = '1' and SW(2) = '0' and SW(3) = '0' else --2
-			  "0110000" when SW(0) = '1' and SW(1) = '1' and SW(2) = '0' and SW(3) = '0' else --3
-			  "0011001" when SW(0) = '0' and SW(1) = '0' and SW(2) = '1' and SW(3) = '0' else --4
-			  "0010010" when SW(0) = '1' and SW(1) = '0' and SW(2) = '1' and SW(3) = '0' else --5
-			  "0000010" when SW(0) = '0' and SW(1) = '1' and SW(2) = '1' and SW(3) = '0' else --6
-			  "1111000" when SW(0) = '1' and SW(1) = '1' and SW(2) = '1' and SW(3) = '0' else --7
-			  "0000000" when SW(0) = '0' and SW(1) = '0' and SW(2) = '0' and SW(3) = '1' else --8
-			  "0011000" when SW(0) = '1' and SW(1) = '0' and SW(2) = '0' and SW(3) = '1' else --9
-			  "0001000" when SW(0) = '0' and SW(1) = '1' and SW(2) = '0' and SW(3) = '1' else --A
-			  "0000011" when SW(0) = '1' and SW(1) = '1' and SW(2) = '0' and SW(3) = '1' else --B
-			  "1000110" when SW(0) = '0' and SW(1) = '0' and SW(2) = '1' and SW(3) = '1' else --C
-			  "0100001" when SW(0) = '1' and SW(1) = '0' and SW(2) = '1' and SW(3) = '1' else --D
-			  "0000110" when SW(0) = '0' and SW(1) = '1' and SW(2) = '1' and SW(3) = '1' else --E
-			  "0001110" when SW(0) = '1' and SW(1) = '1' and SW(2) = '1' and SW(3) = '1' else --F
-			  "0111111";
+	HEX0 <= "1000000" when TO_INTEGER(unsigned(SW)) rem 10 = 0 else
+			  "1111001" when TO_INTEGER(unsigned(SW)) rem 10 = 1 else
+			  "0100100" when TO_INTEGER(unsigned(SW)) rem 10 = 2 else
+			  "0110000" when TO_INTEGER(unsigned(SW)) rem 10 = 3 else
+			  "0011001" when TO_INTEGER(unsigned(SW)) rem 10 = 4 else
+			  "0010010" when TO_INTEGER(unsigned(SW)) rem 10 = 5 else
+			  "0000010" when TO_INTEGER(unsigned(SW)) rem 10 = 6 else
+			  "1111000" when TO_INTEGER(unsigned(SW)) rem 10 = 7 else
+			  "0000000" when TO_INTEGER(unsigned(SW)) rem 10 = 8 else
+			  "0011000";		  
 			  
+	HEX1 <= "1000000" when TO_INTEGER(unsigned(SW)) rem 100 < 10 else
+			  "1111001" when TO_INTEGER(unsigned(SW)) rem 100 < 20 else
+			  "0100100" when TO_INTEGER(unsigned(SW)) rem 100 < 30 else
+			  "0110000" when TO_INTEGER(unsigned(SW)) rem 100 < 40 else
+			  "0011001" when TO_INTEGER(unsigned(SW)) rem 100 < 50 else
+			  "0010010" when TO_INTEGER(unsigned(SW)) rem 100 < 60 else
+			  "0000010" when TO_INTEGER(unsigned(SW)) rem 100 < 70 else
+			  "1111000" when TO_INTEGER(unsigned(SW)) rem 100 < 80 else
+			  "0000000" when TO_INTEGER(unsigned(SW)) rem 100 < 90 else
+			  "0011000";
 			  
-	HEX1 <= "1000000" when SW(4) = '0' and SW(5) = '0' and SW(6) = '0' and SW(7) = '0' else --0
-			  "1111001" when SW(4) = '1' and SW(5) = '0' and SW(6) = '0' and SW(7) = '0' else --1
-			  "0100100" when SW(4) = '0' and SW(5) = '1' and SW(6) = '0' and SW(7) = '0' else --2
-			  "0110000" when SW(4) = '1' and SW(5) = '1' and SW(6) = '0' and SW(7) = '0' else --3
-			  "0011001" when SW(4) = '0' and SW(5) = '0' and SW(6) = '1' and SW(7) = '0' else --4
-			  "0010010" when SW(4) = '1' and SW(5) = '0' and SW(6) = '1' and SW(7) = '0' else --5
-			  "0000010" when SW(4) = '0' and SW(5) = '1' and SW(6) = '1' and SW(7) = '0' else --6
-			  "1111000" when SW(4) = '1' and SW(5) = '1' and SW(6) = '1' and SW(7) = '0' else --7
-			  "0000000" when SW(4) = '0' and SW(5) = '0' and SW(6) = '0' and SW(7) = '1' else --8
-			  "0011000" when SW(4) = '1' and SW(5) = '0' and SW(6) = '0' and SW(7) = '1' else --9
-			  "0001000" when SW(4) = '0' and SW(5) = '1' and SW(6) = '0' and SW(7) = '1' else --A
-			  "0000011" when SW(4) = '1' and SW(5) = '1' and SW(6) = '0' and SW(7) = '1' else --B
-			  "1000110" when SW(4) = '0' and SW(5) = '0' and SW(6) = '1' and SW(7) = '1' else --C
-			  "0100001" when SW(4) = '1' and SW(5) = '0' and SW(6) = '1' and SW(7) = '1' else --D
-			  "0000110" when SW(4) = '0' and SW(5) = '1' and SW(6) = '1' and SW(7) = '1' else --E
-			  "0001110" when SW(4) = '1' and SW(5) = '1' and SW(6) = '1' and SW(7) = '1' else --F
-			  "0111111";
-			  
-	HEX2 <= "1000000" when SW(8) = '0' and SW(9) = '0' else --0
-			  "1111001" when SW(8) = '1' and SW(9) = '0' else --1
-			  "0100100" when SW(8) = '0' and SW(9) = '1' else --2
-			  "0110000" when SW(8) = '1' and SW(9) = '1' else --3
-			  "0111111";
-	
-	
+	HEX2 <= "1000000" when TO_INTEGER(unsigned(SW)) < 100 else
+			  "1111001" when TO_INTEGER(unsigned(SW)) < 200 else
+			  "0100100" when TO_INTEGER(unsigned(SW)) < 300 else
+			  "0110000" when TO_INTEGER(unsigned(SW)) < 400 else
+			  "0011001" when TO_INTEGER(unsigned(SW)) < 500 else
+			  "0010010" when TO_INTEGER(unsigned(SW)) < 600 else
+			  "0000010" when TO_INTEGER(unsigned(SW)) < 700 else
+			  "1111000" when TO_INTEGER(unsigned(SW)) < 800 else
+			  "0000000" when TO_INTEGER(unsigned(SW)) < 900 else
+			  "0011000";
 
 end rtl;
