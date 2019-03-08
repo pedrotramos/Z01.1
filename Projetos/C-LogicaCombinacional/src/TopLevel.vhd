@@ -41,7 +41,8 @@ architecture rtl of TopLevel is
 ---------------
 begin
  
-	HEX0 <= "1000000" when TO_INTEGER(unsigned(SW)) rem 10 = 0 else
+	HEX0 <= "0111111" when TO_INTEGER(unsigned(SW)) >= 1000 else
+			  "1000000" when TO_INTEGER(unsigned(SW)) rem 10 = 0 else
 			  "1111001" when TO_INTEGER(unsigned(SW)) rem 10 = 1 else
 			  "0100100" when TO_INTEGER(unsigned(SW)) rem 10 = 2 else
 			  "0110000" when TO_INTEGER(unsigned(SW)) rem 10 = 3 else
@@ -50,9 +51,11 @@ begin
 			  "0000010" when TO_INTEGER(unsigned(SW)) rem 10 = 6 else
 			  "1111000" when TO_INTEGER(unsigned(SW)) rem 10 = 7 else
 			  "0000000" when TO_INTEGER(unsigned(SW)) rem 10 = 8 else
-			  "0011000";		  
+			  "0011000";
+			  		  
 			  
-	HEX1 <= "1000000" when TO_INTEGER(unsigned(SW)) rem 100 < 10 else
+	HEX1 <= "0111111" when TO_INTEGER(unsigned(SW)) >= 1000 else
+			  "1000000" when TO_INTEGER(unsigned(SW)) rem 100 < 10 else
 			  "1111001" when TO_INTEGER(unsigned(SW)) rem 100 < 20 else
 			  "0100100" when TO_INTEGER(unsigned(SW)) rem 100 < 30 else
 			  "0110000" when TO_INTEGER(unsigned(SW)) rem 100 < 40 else
@@ -72,6 +75,7 @@ begin
 			  "0000010" when TO_INTEGER(unsigned(SW)) < 700 else
 			  "1111000" when TO_INTEGER(unsigned(SW)) < 800 else
 			  "0000000" when TO_INTEGER(unsigned(SW)) < 900 else
-			  "0011000";
+			  "0011000" when TO_INTEGER(unsigned(SW)) < 1000 else
+			  "0111111";
 
 end rtl;
