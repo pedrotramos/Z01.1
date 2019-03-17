@@ -4,6 +4,7 @@
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
+use IEEE.NUMERIC_STD.all;
 
 entity comparador16 is
    port(
@@ -19,6 +20,11 @@ architecture rtl of comparador16 is
   -- utilizados nesse modulo.
 
 begin
+
   -- Implementação vem aqui!
+  zr <= '1' when TO_INTEGER(signed(a)) = 0 else
+  		'0';
+  ng <= '1' when TO_INTEGER(signed(a)) < 0 else
+  		'0';
 
 end architecture;
