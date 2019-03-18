@@ -50,7 +50,6 @@ architecture rtl of TopLevel is
         ny	    :	 IN STD_LOGIC;
         f		:	 IN STD_LOGIC;
         bs_left :    IN STD_LOGIC;
-		  bs_right :    IN STD_LOGIC;
         no	    :	 IN STD_LOGIC;
         zr	    :	 OUT STD_LOGIC;
         ng	    :	 OUT STD_LOGIC;
@@ -58,7 +57,7 @@ architecture rtl of TopLevel is
         );
   END COMPONENT;
 
-
+--fix
 ---------------
 -- implementacao
 ---------------
@@ -74,7 +73,6 @@ begin
     F                  => SW(4),
     No                 => SW(5),
     bs_left            => SW(9),
-	 bs_right           => SW(8),
     Zr                 => LEDR(8),
     Ng                 => LEDR(9),
     Saida(7 downto 0)  => LEDR(7 downto 0),
