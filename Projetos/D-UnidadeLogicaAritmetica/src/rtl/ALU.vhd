@@ -37,6 +37,8 @@ entity ALU is
 			ny:    in STD_LOGIC;                     -- inverte a entrada y
 			f:     in STD_LOGIC;                     -- se 0 calcula x & y, senão x + y
 			no:    in STD_LOGIC;                     -- inverte o valor da saída
+			bs_left: in STD_LOGIC;
+			bs_right: in STD_LOGIC;
 			zr:    out STD_LOGIC;                    -- setado se saída igual a zero
 			ng:    out STD_LOGIC;                    -- setado se saída é negativa
 			saida: out STD_LOGIC_VECTOR(15 downto 0) -- saída de dados da ALU
@@ -95,7 +97,7 @@ architecture  rtl OF alu is
 		);
 	end component;
 
-   SIGNAL zxout,zyout,nxout,nyout,andout,adderout,muxout,precomp: std_logic_vector(15 downto 0);
+   SIGNAL zxout,zyout,nxout,nyout,andout,adderout,muxout,precomp, bitl, bitr: std_logic_vector(15 downto 0);
 
 begin
   -- Implementação vem aqui!
@@ -115,6 +117,13 @@ begin
 
   Comparador: comparador16 port map (a=>precomp, zr=>zr, ng=>ng);
 
-  saida <= precomp;
+  Left: Add16 port map (a=>precomp, b=>precomp, q=>bitl);
+
+  bitr <= std_logic_vector(to_unsigned(to_integer(unsigned(precomp))/2, 16));
+
+  saida <= precomp when bs_left = '1' and bs_right = '1' else
+  		   bitl when bs_left = '1' else
+  		   bitr when bs_right = '1' else
+           precomp;
 
 end architecture;
