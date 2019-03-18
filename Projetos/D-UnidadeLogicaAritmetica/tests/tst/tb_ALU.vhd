@@ -14,7 +14,7 @@ entity tb_ALU is
 end entity;
 
 architecture tb of tb_ALU is
-
+--fix
 component ALU is
 	port (
 			x,y:   in STD_LOGIC_VECTOR(15 downto 0); -- entradas de dados da ALU
