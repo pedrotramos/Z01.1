@@ -33,7 +33,7 @@ component Mux2Way is
 		q:   out STD_LOGIC);
 end component;
 
-signal muxout, outd, clear, preset: std_logic;
+signal muxout, outd: std_logic;
 
 begin
 
@@ -46,8 +46,8 @@ Mux: Mux2Way port map (
 FlipFlop: FlipFlopD port map (
 		clock => clock,
 		d => muxout,
-		clear => clear,
-		preset => preset,
+		clear => '0',
+		preset => '0',
 		q => outd);
 					
 output <= outd;
