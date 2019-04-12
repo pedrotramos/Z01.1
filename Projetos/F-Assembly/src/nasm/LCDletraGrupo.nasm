@@ -154,3 +154,49 @@
 
   leaw $19098, %A
   movw %S, (%A)
+
+  leaw $19115, %A
+  movw %S, (%A)
+
+  leaw $19118, %A
+  movw %S, (%A)
+
+        ; linha 1
+  leaw $19155, %A
+  movw %S, (%A)
+  incw %A
+  movw %S, (%A)
+  incw %A
+  movw %S, (%A)
+  incw %A
+  movw %S, (%A)
+
+    ; linha 1
+  leaw $19135, %A
+  movw %S, (%A)
+  incw %A
+  movw %S, (%A)
+  incw %A
+  movw %S, (%A)
+  incw %A
+  movw %S, (%A)
+
+      ; linha 1
+  leaw $19175, %A
+  movw %S, (%A)
+  incw %A
+  movw %S, (%A)
+  incw %A
+  movw %S, (%A)
+  incw %A
+  movw %S, (%A)
+
+      ; linha 1
+  leaw $19195, %A
+  movw %S, (%A)
+  incw %A
+  movw %S, (%A)
+  incw %A
+  movw %S, (%A)
+  incw %A
+  movw %S, (%A)
