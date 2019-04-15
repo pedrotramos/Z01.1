@@ -15,4 +15,5 @@ tests/tst/mult/mult0_end.mif
 tests/tst/pow/pow0_end.mif
 tests/tst/pow/pow1_end.mif
 tests/tst/sub/sub0_end.mif
-
+tests/tst/pow/matrizDeterminante0_end.mif
+tests/tst/pow/matrizDeterminante1_end.mif
