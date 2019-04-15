@@ -18,3 +18,44 @@
 ; RAM[1003] = b0
 ; RAM[1004] = b1
 
+leaw $1000, %A
+movw (%A), %S
+leaw $1004, %A
+movw (%A), %D
+decw %D
+
+DPRINC:
+leaw $1000, %A
+addw %S, (%A), %S
+decw %D
+leaw $DPRINC, %A
+jg %D
+nop
+leaw $1, %A
+movw %S, (%A)
+
+leaw $1001, %A
+movw (%A), %S
+leaw $1003, %A
+movw (%A), %D
+decw %D
+
+OUTRAD:
+leaw $1001, %A
+addw %S, (%A), %S
+decw %D
+leaw $OUTRAD, %A
+jg %D
+nop
+leaw $2, %A
+movw %S, (%A)
+
+leaw $1, %A
+movw (%A), %D
+leaw $2, %A
+movw (%A), %S
+
+subw %D, %S, %S
+
+leaw $0, %A
+movw %S, (%A)
