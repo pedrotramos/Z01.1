@@ -1,0 +1,9 @@
+links:
+
+jogo:
+-https://photos.app.goo.gl/Sjmj959Vi9BLoRUo7
+
+Consiste em tentar apagar todas as LEDs à partir da manipulação das swicthes.
+
+SW e LED:
+-https://photos.app.goo.gl/X3k5QBBBVbQiF5JU8
