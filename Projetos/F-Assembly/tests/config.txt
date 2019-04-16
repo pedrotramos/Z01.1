@@ -16,5 +16,5 @@ sub 1 1000
 
 isEven 2 1000
 #palindromo 2 1000
-#stringLength 2 2000
+stringLength 2 2000
 matrizDeterminante 2 10000
