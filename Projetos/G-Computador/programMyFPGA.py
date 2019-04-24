@@ -22,4 +22,4 @@ if __name__ == "__main__":
         noti.error("FPGA NÃ̀O PROGRAMADA!")
         sys.exit(ERRO_PROGRAMING)
     noti.ok("FPGA programada!")
-    print('------------------- Concluido')
+print('------------------- Concluido')
