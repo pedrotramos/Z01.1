@@ -41,7 +41,7 @@
 # Project-Wide Assignments
 # ========================
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 13
-set_global_assignment -name LAST_QUARTUS_VERSION "16.1.0 Standard Edition"
+set_global_assignment -name LAST_QUARTUS_VERSION "17.1.0 Lite Edition"
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "MON MAY  5 11:54:18 2014"
 set_global_assignment -name FLOW_ENABLE_RTL_VIEWER ON
 set_global_assignment -name SMART_RECOMPILE ON
@@ -139,7 +139,7 @@ set_global_assignment -name TIMEQUEST_MULTICORNER_ANALYSIS ON
 # Analysis & Synthesis Assignments
 # ================================
 set_global_assignment -name FAMILY "Cyclone V"
-set_global_assignment -name TOP_LEVEL_ENTITY Computador
+set_global_assignment -name TOP_LEVEL_ENTITY MemoryIO
 set_global_assignment -name OPTIMIZATION_TECHNIQUE SPEED
 set_global_assignment -name SYNTH_TIMING_DRIVEN_SYNTHESIS ON
 set_global_assignment -name PROJECT_IP_REGENERATION_POLICY ALWAYS_REGENERATE_IP
@@ -243,12 +243,9 @@ set_global_assignment -name VHDL_FILE "../../C-LogicaCombinacional/src/rtl/Mux8W
 set_global_assignment -name VHDL_FILE "../../C-LogicaCombinacional/src/rtl/Mux4Way16.vhd"
 set_global_assignment -name VHDL_FILE "../../C-LogicaCombinacional/src/rtl/Mux4Way.vhd"
 set_global_assignment -name VHDL_FILE "../../C-LogicaCombinacional/src/rtl/Mux2Way.vhd"
-set_global_assignment -name VHDL_FILE "../../C-LogicaCombinacional/src/rtl/DMux8Way16.vhd"
 set_global_assignment -name VHDL_FILE "../../C-LogicaCombinacional/src/rtl/DMux8Way.vhd"
 set_global_assignment -name VHDL_FILE "../../C-LogicaCombinacional/src/rtl/DMux4Way.vhd"
 set_global_assignment -name VHDL_FILE "../../C-LogicaCombinacional/src/rtl/DMux2Way.vhd"
-set_global_assignment -name VHDL_FILE "../../C-LogicaCombinacional/src/rtl/BarrelShifter16.vhd"
-set_global_assignment -name VHDL_FILE "../../C-LogicaCombinacional/src/rtl/BarrelShifter8.vhd"
 set_global_assignment -name VHDL_FILE "../../C-LogicaCombinacional/src/rtl/And16.vhd"
 set_global_assignment -name SDC_FILE DE0_CV_Default.sdc
 set_location_assignment PIN_K20 -to LCD_D[3]
@@ -273,6 +270,14 @@ set_location_assignment PIN_L19 -to LCD_D[15]
 set_location_assignment PIN_K17 -to LCD_CS_N
 set_location_assignment PIN_T18 -to LCD_RESET_N
 set_location_assignment PIN_T15 -to LCD_ON
+set_global_assignment -name ROUTER_LCELL_INSERTION_AND_LOGIC_DUPLICATION ON
+set_global_assignment -name ROUTER_TIMING_OPTIMIZATION_LEVEL MAXIMUM
+set_global_assignment -name QII_AUTO_PACKED_REGISTERS NORMAL
+set_global_assignment -name PHYSICAL_SYNTHESIS_COMBO_LOGIC ON
+set_global_assignment -name PHYSICAL_SYNTHESIS_REGISTER_DUPLICATION ON
+set_global_assignment -name PHYSICAL_SYNTHESIS_REGISTER_RETIMING ON
+set_global_assignment -name STATE_MACHINE_PROCESSING "ONE-HOT"
+set_global_assignment -name ADV_NETLIST_OPT_SYNTH_WYSIWYG_REMAP ON
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
@@ -374,12 +379,4 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LCD_CS_N
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LCD_RESET_N
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LCD_ON
 set_instance_assignment -name GLOBAL_SIGNAL GLOBAL_CLOCK -to CLOCK_50
-set_global_assignment -name ROUTER_LCELL_INSERTION_AND_LOGIC_DUPLICATION ON
-set_global_assignment -name ROUTER_TIMING_OPTIMIZATION_LEVEL MAXIMUM
-set_global_assignment -name QII_AUTO_PACKED_REGISTERS NORMAL
-set_global_assignment -name PHYSICAL_SYNTHESIS_COMBO_LOGIC ON
-set_global_assignment -name PHYSICAL_SYNTHESIS_REGISTER_DUPLICATION ON
-set_global_assignment -name PHYSICAL_SYNTHESIS_REGISTER_RETIMING ON
-set_global_assignment -name STATE_MACHINE_PROCESSING "ONE-HOT"
-set_global_assignment -name ADV_NETLIST_OPT_SYNTH_WYSIWYG_REMAP ON
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

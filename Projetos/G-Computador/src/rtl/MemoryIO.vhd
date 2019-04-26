@@ -12,7 +12,7 @@ entity MemoryIO is
      -- RAM 16K
      ADDRESS  : IN  STD_LOGIC_VECTOR (14 DOWNTO 0);
      INPUT		: IN  STD_LOGIC_VECTOR (15 DOWNTO 0);
-     LOAD	  	: IN  STD_LOGIC ;
+     LOAD	  	: IN  STD_LOGIC;
      OUTPUT		: OUT STD_LOGIC_VECTOR (15 DOWNTO 0);
 
      -- LCD EXTERNAL I/OS
@@ -67,7 +67,7 @@ ARCHITECTURE logic OF MemoryIO IS
   end component;
 
   component Mux4Way16 is
-    Port (
+    port (
       sel : in  STD_LOGIC_VECTOR ( 1 downto 0);
       a   : in  STD_LOGIC_VECTOR (15 downto 0);
       b   : in  STD_LOGIC_VECTOR (15 downto 0);
@@ -76,36 +76,89 @@ ARCHITECTURE logic OF MemoryIO IS
       q   : out STD_LOGIC_VECTOR (15 downto 0));
   end component;
 
+  component DMux4Way is
+	port ( 
+	  a:   in  STD_LOGIC;
+	  sel: in  STD_LOGIC_VECTOR(1 downto 0);
+	  q0:  out STD_LOGIC;
+	  q1:  out STD_LOGIC;
+	  q2:  out STD_LOGIC;
+	  q3:  out STD_LOGIC);
+  end component;
+
+  component Register16 is
+	port(
+	  clock:   in STD_LOGIC;
+	  input:   in STD_LOGIC_VECTOR(15 downto 0);
+	  load:    in STD_LOGIC;
+	  output: out STD_LOGIC_VECTOR(15 downto 0)
+	);
+   end component;
+
+signal loadRAM, loadLCD, loadReg : STD_LOGIC;
+signal sel, sel_sw: STD_LOGIC_VECTOR(1 downto 0);
+signal RAMout, LEDs: STD_LOGIC_VECTOR(15 downto 0);
+
 begin
 
------------------------------------
--- Dicas de uso, screen e RAM16k --
------------------------------------
+sel <= "00" when ADDRESS <= "011111111111111" else
+       "01" when ADDRESS <= "101001010111111" and ADDRESS >= "100000000000000" else
+       "10" when ADDRESS = "101001011000000" else
+       "11";
 
---    DISPLAY: Screen  port map (
---          RST         => RST,
---          CLK_FAST    => CLK_FAST,
---          CLK_SLOW    => CLK_SLOW,
---          INPUT       =>
---          LOAD        =>
---          ADDRESS     =>
---          LCD_INIT_OK => LCD_INIT_OK,
---          LCD_CS_N 	  => LCD_CS_N ,
---          LCD_D       => LCD_D,
---          LCD_RD_N 	  => LCD_RD_N,
---          LCD_RESET_N => LCD_RESET_N,
---          LCD_RS 	    => LCD_RS,
---          LCD_WR_N 	  => LCD_WR_N
---    );
+DMUX: DMux4Way port map (
+  a   => LOAD,
+  sel =>  sel,
+  q0  => loadRAM,
+  q1  => loadLCD,
+  q2  => loadReg,
+  q3  => open
+);
 
+LED <= LEDs(9 downto 0);
 
---    RAM: RAM16K  PORT MAP(
---         clock		=> CLK_FAST,
---         address  =>
---         data		  =>
---         wren		  =>
---         q		    =>
---    );
+REG: Register16 port map (
+  clock  => CLK_SLOW,
+  input  => INPUT(15 downto 0),
+  load   => loadReg,
+  output => LEDs
+);
 
+DISPLAY: Screen  port map (
+  RST          => RST,
+  CLK_FAST     => CLK_FAST,
+  CLK_SLOW     => CLK_SLOW,
+  INPUT        => INPUT(15 downto 0),
+  LOAD         => loadLCD,
+  ADDRESS      => ADDRESS(13 downto 0),
+  --ADDRESS => "00000000000000",
+  LCD_INIT_OK  => LCD_INIT_OK,
+  LCD_CS_N     => LCD_CS_N ,
+  LCD_D        => LCD_D,
+  LCD_RD_N     => LCD_RD_N,
+  LCD_RESET_N  => LCD_RESET_N,
+  LCD_RS       => LCD_RS,
+  LCD_WR_N     => LCD_WR_N
+);
+
+RAM: RAM16K  PORT MAP (
+   clock   => CLK_FAST,
+   address => ADDRESS(13 DOWNTO 0),
+   data    => INPUT(15 downto 0),
+   wren    => loadRAM,
+   q       => RAMout
+);
+
+sel_sw <= "01" when (ADDRESS = "101001011000001") else
+          "00";
+
+MUX: Mux4Way16 port map (
+  sel  => sel_sw,
+  a    => RAMout,
+  b    => "000000" & SW,
+  c    => X"0000",
+  d    => X"0000",
+  q    => OUTPUT
+);
 
 END logic;
