@@ -40,7 +40,7 @@ muxSD_ALU <= instruction(17) and instruction(15) and (instruction(13) and (not i
 muxAMD_ALU <= instruction(17) and (not instruction(15));
 
 -- Instrucoes pro load
-loadA <= instruction(6) or not instruction(17);
+loadA <= (instruction(17) and instruction(6)) or (not instruction(17));
 loadS <= instruction(5) and instruction(17);
 loadD <= instruction(4) and instruction(17);
 loadM <= instruction(3) and instruction(17);
