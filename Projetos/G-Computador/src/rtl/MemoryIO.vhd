@@ -97,7 +97,7 @@ ARCHITECTURE logic OF MemoryIO IS
 
 signal loadRAM, loadLCD, loadReg : STD_LOGIC;
 signal sel, sel_sw: STD_LOGIC_VECTOR(1 downto 0);
-signal RAMout, LEDs: STD_LOGIC_VECTOR(15 downto 0);
+signal RAMout, LEDs, SW_interno: STD_LOGIC_VECTOR(15 downto 0);
 
 begin
 
@@ -152,10 +152,12 @@ RAM: RAM16K  PORT MAP (
 sel_sw <= "01" when (ADDRESS = "101001011000001") else
           "00";
 
+SW_interno <= "000000" & SW;
+
 MUX: Mux4Way16 port map (
   sel  => sel_sw,
   a    => RAMout,
-  b    => "000000" & SW,
+  b    => SW_interno,
   c    => X"0000",
   d    => X"0000",
   q    => OUTPUT
