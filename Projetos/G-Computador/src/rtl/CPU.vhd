@@ -109,7 +109,6 @@ architecture arch of CPU is
 
 begin
 
-
 MuxALU_I: Mux16 port map (
     a   => s_ALUout,
     b   => instruction(15 downto 0),
@@ -169,18 +168,18 @@ ProgramCounter: PC port map (
     );
 
 ULA: ALU port map (
-    x     => s_muxSDout,
-    y     => s_muxAMD_ALUout,
-    zx    => c_zx,
-    nx    => c_nx,
-    zy    => c_zy,
-    ny    => c_ny,
-    f     => c_f,
-    no    => c_no,
-    bs_left => '0',
-    zr    => c_zr,
-    ng    => c_ng,
-    saida => s_ALUout
+    x        => s_muxSDout,
+    y        => s_muxAMD_ALUout,
+    zx       => c_zx,
+    nx       => c_nx,
+    zy       => c_zy,
+    ny       => c_ny,
+    f        => c_f,
+    no       => c_no,
+    bs_left  => '0',
+    zr       => c_zr,
+    ng       => c_ng,
+    saida    => s_ALUout
     );
 
 CUnit: ControlUnit port map(

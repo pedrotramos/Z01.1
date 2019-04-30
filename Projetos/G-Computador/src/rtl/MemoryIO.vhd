@@ -131,7 +131,6 @@ DISPLAY: Screen  port map (
   INPUT        => INPUT(15 downto 0),
   LOAD         => loadLCD,
   ADDRESS      => ADDRESS(13 downto 0),
-  --ADDRESS => "00000000000000",
   LCD_INIT_OK  => LCD_INIT_OK,
   LCD_CS_N     => LCD_CS_N ,
   LCD_D        => LCD_D,
