@@ -52,3 +52,4 @@ script:
   - python3 Projetos/F-Assembly/testeAssembly.py
   - python3 Projetos/G-Computador/testeHW.py lib.tb_memoryio.all
   - python3 Projetos/G-Computador/testeHW.py lib.tb_controlunit.all
+  - python3 Projetos/G-Computador/testeAssemblyMyCPU.py
