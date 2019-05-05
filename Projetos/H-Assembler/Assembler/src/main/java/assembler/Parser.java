@@ -69,7 +69,13 @@ public class Parser {
      * @return o tipo da instrução.
      */
     public CommandType commandType(String command) {
-    	return null;
+        if (command.substring(0,1).equals("l")) {
+            return CommandType.A_COMMAND;
+        } else if (command.substring(command.length()-1).equals(':')) {
+            return CommandType.L_COMMAND;
+        } else {
+            return CommandType.C_COMMAND;
+        }
     }
 
     /**
