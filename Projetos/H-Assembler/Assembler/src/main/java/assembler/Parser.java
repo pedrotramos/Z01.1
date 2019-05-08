@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.regex.PatternSyntaxException;
 
 /**
  * Encapsula o código de leitura. Carrega as instruções na linguagem assembly,
@@ -48,8 +49,21 @@ public class Parser {
      * @return Verdadeiro se ainda há instruções, Falso se as instruções terminaram.
      */
     public Boolean advance() {
-        // usar o fileReader.readLine();
-    	return null;
+        try {
+            if (fileReader.readLine() != null) {
+                while (currentLine != null && currentLine.length() > 0) {
+                    if (currentLine.equals("\n") || currentLine.charAt(0) == ';') {
+                        currentLine = fileReader.readLine();
+                    }
+                }
+                return true;
+            } else {
+                return false;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -57,7 +71,13 @@ public class Parser {
      * @return a instrução atual para ser analilisada
      */
     public String command() {
-    	return null;
+        for (char letra: currentLine.toCharArray()) {
+            if (letra == '/') {
+                currentCommand = currentLine.substring(0, currentLine.indexOf(letra));
+                currentCommand.trim();
+            }
+        }
+        return currentCommand;
     }
 
     /**
@@ -71,7 +91,7 @@ public class Parser {
     public CommandType commandType(String command) {
         if (command.substring(0,1).equals("l")) {
             return CommandType.A_COMMAND;
-        } else if (command.substring(command.length()-1).equals(':')) {
+        } else if (command.substring(command.length()-1).equals(":")) {
             return CommandType.L_COMMAND;
         } else {
             return CommandType.C_COMMAND;
@@ -85,7 +105,15 @@ public class Parser {
      * @return somente o símbolo ou o valor número da instrução.
      */
     public String symbol(String command) {
-    	return null;
+        int start = command.indexOf("$");
+        int finish = command.indexOf(",");
+        String symbol = command.substring(start+1, finish);
+
+        if (commandType(command).equals(CommandType.A_COMMAND)) {
+            return symbol;
+        } else {
+            return "";
+        }
     }
 
     /**
@@ -95,7 +123,11 @@ public class Parser {
      * @return o símbolo da instrução (sem os dois pontos).
      */
     public String label(String command) {
-    	return null;
+        if (commandType(command).equals(CommandType.L_COMMAND)) {
+            return command.substring(0, command.indexOf(":"));
+        } else {
+            return "";
+        }
     }
 
     /**
@@ -105,7 +137,13 @@ public class Parser {
      * @return um vetor de string contento os tokens da instrução (as partes do comando).
      */
     public String[] instruction(String command) {
-    	return null;
+        String replace = command.replace(",", " ");
+        String[] split = replace.split(" ");
+        if (!commandType(command).equals(CommandType.L_COMMAND)) {
+            return split;
+        } else {
+            return new String[1];
+        }
     }
 
     // fecha o arquivo de leitura
