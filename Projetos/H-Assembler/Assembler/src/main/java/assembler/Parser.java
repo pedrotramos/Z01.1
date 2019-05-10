@@ -5,6 +5,8 @@
 
 package assembler;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -49,21 +51,35 @@ public class Parser {
      * @return Verdadeiro se ainda há instruções, Falso se as instruções terminaram.
      */
     public Boolean advance() {
+        Boolean proximo;
         try {
-            if (fileReader.readLine() != null) {
-                while (currentLine != null && currentLine.length() > 0) {
-                    if (currentLine.equals("\n") || currentLine.charAt(0) == ';') {
-                        currentLine = fileReader.readLine();
+            currentLine = fileReader.readLine();
+            if (currentLine != null) {
+                proximo = true;
+            }
+            else {
+                proximo = false;
+            }
+            while (proximo) {
+                if (currentLine.length() == 0 || currentLine.charAt(0) == ';') {
+                    currentLine = fileReader.readLine();
+                    if (currentLine != null) {
+                        proximo = true;
+                    }
+                    else {
+                        proximo = false;
+                        return null;
                     }
                 }
-                return true;
-            } else {
-                return false;
+                else {
+                    return proximo;
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
+        return proximo;
     }
 
     /**
@@ -71,10 +87,19 @@ public class Parser {
      * @return a instrução atual para ser analilisada
      */
     public String command() {
+        currentCommand = currentLine;
+        int contador = 0;
         for (char letra: currentLine.toCharArray()) {
-            if (letra == '/') {
-                currentCommand = currentLine.substring(0, currentLine.indexOf(letra));
-                currentCommand.trim();
+            if (letra == ';') {
+                currentCommand = currentCommand.substring(0, currentCommand.indexOf(letra));
+                for (char letter: currentCommand.toCharArray()) {
+                    if (letter == ' ') {
+                        contador += 1;
+                    }
+                }
+                for (int i = 0; i < contador - 1; i++) {
+                    currentCommand = currentCommand.substring(0, currentCommand.lastIndexOf(' '));
+                }
             }
         }
         return currentCommand;
