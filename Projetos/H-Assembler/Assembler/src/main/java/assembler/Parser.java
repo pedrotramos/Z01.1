@@ -92,7 +92,7 @@ public class Parser {
                 }
             }
         }
-        return currentCommand;
+        return currentCommand.trim();
     }
 
     /**
@@ -105,9 +105,9 @@ public class Parser {
      * @return o tipo da instrução.
      */
     public CommandType commandType(String command) {
-        if (command.substring(0, 1).equals("l")) {
+        if (command.contains("leaw")) {
             return CommandType.A_COMMAND;
-        } else if (command.substring(command.length() - 1).equals(":")) {
+        } else if (command.contains(":")) {
             return CommandType.L_COMMAND;
         } else {
             return CommandType.C_COMMAND;
@@ -156,8 +156,17 @@ public class Parser {
      * @return um vetor de string contento os tokens da instrução (as partes do comando).
      */
     public String[] instruction(String command) {
-        String replace = command.replace(",", " ");
-        String[] split = replace.split(" ");
+        String[] split;
+        String replace = command.replace(" ", "");
+        if (command.substring(0,1).equals("j")) {
+            String replace2 = replace.replace("%", " %");
+            split = replace2.split(" ");
+        } else {
+            String replace2 = replace.replace("w", "w ");
+            String replace3 = replace2.replace(",", " ");
+            split = replace3.split(" ");
+        }
+
         if (!commandType(command).equals(CommandType.L_COMMAND)) {
             return split;
         } else {

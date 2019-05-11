@@ -125,6 +125,12 @@ public class Code {
                     return "001001100";
                 case "(%A)":
                     return "010110000";
+                case "$1":
+                    return "000111111";
+                case "$-1":
+                    return "000111010";
+                case "$0":
+                    return "000101010";
 
             }
         }
@@ -263,19 +269,27 @@ public class Code {
             }
         }
         if (mnemnonic[0].equals("jle")) {
-            switch (mnemnonic[1]) {
-                case "%D":
-                    return "000001100";
-                case "%S":
-                    return "001001100";
+            if (mnemnonic.length == 2) {
+                switch (mnemnonic[1]) {
+                    case "%D":
+                        return "000001100";
+                    case "%S":
+                        return "001001100";
+                }
+            } else {
+                return "000000000";
             }
         }
         if (mnemnonic[0].equals("jmp")) {
-            switch (mnemnonic[1]) {
-                case "%D":
-                    return "000001100";
-                case "%S":
-                    return "001001100";
+            if (mnemnonic.length == 2) {
+                switch (mnemnonic[1]) {
+                    case "%D":
+                        return "000001100";
+                    case "%S":
+                        return "001001100";
+                }
+            } else {
+                return "000001100";
             }
         }
 
