@@ -44,7 +44,7 @@ jmp
 nop
 
 SIM:
-leaw $0 %A
+leaw $0, %A
 movw $1, (%A)
 leaw $END, %A
 jmp

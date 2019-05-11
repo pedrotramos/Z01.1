@@ -44,9 +44,10 @@ public class Assemble {
      * Dependencia : Parser, SymbolTable
      */
     public SymbolTable fillSymbolTable() throws FileNotFoundException, IOException {
+        //Verifica Labels comuns (com ":")
         Parser parser = new Parser(inputFile);
         int current_line = 0;
-        int label_number = 16;
+
         while (parser.advance()) {
             if (parser.commandType(parser.command()).equals(Parser.CommandType.L_COMMAND)) {
                 String new_label = parser.label(parser.command());
@@ -54,9 +55,15 @@ public class Assemble {
             } else {
                 current_line++;
             }
+        }
 
-            if (parser.commandType(parser.command()).equals(Parser.CommandType.A_COMMAND)) {
-                String symbol = parser.symbol(parser.command());
+        //Verifica labels no meio de leaws
+        Parser parser2 = new Parser(inputFile);
+        int label_number = 16;
+
+        while (parser2.advance()) {
+            if (parser2.commandType(parser2.command()).equals(Parser.CommandType.A_COMMAND)) {
+                String symbol = parser2.symbol(parser2.command());
                 boolean numeric = true;
                 try {
                     Double num = Double.parseDouble(symbol);
