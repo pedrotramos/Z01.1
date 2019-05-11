@@ -115,6 +115,10 @@ public class Code {
      */
     public static String comp(String[] mnemnonic) {
 
+        if (mnemnonic[0].equals("nop")) {
+            return "000101010";
+        }
+
         if (mnemnonic[0].equals("movw")) {
             switch (mnemnonic[1]) {
                 case "%D":
@@ -131,7 +135,6 @@ public class Code {
                     return "000111010";
                 case "$0":
                     return "000101010";
-
             }
         }
 
@@ -186,6 +189,8 @@ public class Code {
                     return "010110010";
                 case "%S":
                     return "001001110";
+                default:
+                    return "000101010";
             }
         }
 
@@ -212,6 +217,8 @@ public class Code {
                     return "000110111";
                 case "(%A)":
                     return "010110111";
+                default:
+                    return "000101010";
             }
         }
 
@@ -225,6 +232,8 @@ public class Code {
                     return "001001101";
                 case "(%A)":
                     return "010110001";
+                default:
+                    return "000101010";
             }
         }
 
@@ -315,7 +324,8 @@ public class Code {
                     return "101010101";
                 case "%D%S":
                     return "101010101";
-
+                default:
+                    return "000101010";
             }
         }
 
@@ -341,7 +351,8 @@ public class Code {
                     return "101000000";
                 case "%D%S":
                     return "101000000";
-
+                default:
+                    return "000101010";
             }
         }
 
@@ -376,31 +387,31 @@ public class Code {
                 case "(%A)$1":
                     return "010110010";
                 default:
-                    return "0000";
+                    return "000101010";
             }
         }
         if (mnemnonic[0].equals("rsubw")) {
             switch (mnemnonic[1] + mnemnonic[2]) {
                 case "%D%A":
-                    return "000010011";
-                case "%A%D":
                     return "000000111";
+                case "%A%D":
+                    return "000010011";
                 case "%S%A":
-                    return "001010011";
-                case "%A%S":
                     return "001000111";
+                case "%A%S":
+                    return "001010011";
                 case "%D(%A)":
                     return "010000111";
                 case "(%A)%D":
-                    return "010000111";
+                    return "010010011";
                 case "%S(%A)":
-                    return "011010011";
-                case "(%A)%S":
                     return "011000111";
+                case "(%A)%S":
+                    return "011010011";
                 case "%S%D":
-                    return "101010011";
-                case "%D%S":
                     return "101000111";
+                case "%D%S":
+                    return "101010011";
                 case "$1%A":
                     return "000110010";
                 case "$1%D":
@@ -410,10 +421,10 @@ public class Code {
                 case "$1(%A)":
                     return "010110010";
                 default:
-                    return "0000";
+                    return "000101010";
             }
         } else {
-            return "0000";
+            return "000101010"; //caso "nop"
         }
     }
     // PRECISA REVISAR O SUBW E P RSUBW !!!SO FIZPASSAR NOS TESTES

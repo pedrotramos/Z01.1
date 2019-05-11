@@ -78,10 +78,9 @@ public class Parser {
      */
     public String command() {
         int comment = currentLine.indexOf(";");
-        if(comment != -1) {
+        if (comment != -1) {
             currentLine = currentLine.substring(0, comment - 1).trim();
-        }
-        else currentLine = currentLine.trim();
+        } else currentLine = currentLine.trim();
 
         return currentLine;
     }
@@ -149,7 +148,7 @@ public class Parser {
     public String[] instruction(String command) {
         String[] split;
         String replace = command.replace(" ", "");
-        if (command.substring(0,1).equals("j")) {
+        if (command.substring(0, 1).equals("j")) {
             String replace2 = replace.replace("%", " %");
             split = replace2.split(" ");
         } else {

@@ -31,8 +31,7 @@ public class Assemble {
         this.debug = debug;
         inputFile = inFile;
         hackFile = new File(outFileHack);                      // Cria arquivo de saída .hack
-        outHACK = new PrintWriter(new FileWriter(hackFile));  // Cria saída do print para
-        // o arquivo hackfile
+        outHACK = new PrintWriter(new FileWriter(hackFile));  // Cria saída do print para arquivo hackfile
         table = new SymbolTable();                          // Cria e inicializa a tabela de simbolos
     }
 
