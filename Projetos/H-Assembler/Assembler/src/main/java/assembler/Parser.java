@@ -58,7 +58,7 @@ public class Parser {
                         proximo = true;
                     } else {
                         proximo = false;
-                        return null;
+                        return proximo;
                     }
                 } else {
                     return proximo;
@@ -77,22 +77,13 @@ public class Parser {
      * @return a instrução atual para ser analilisada
      */
     public String command() {
-        currentCommand = currentLine;
-        int contador = 0;
-        for (char letra : currentLine.toCharArray()) {
-            if (letra == ';') {
-                currentCommand = currentCommand.substring(0, currentCommand.indexOf(letra));
-                for (char letter : currentCommand.toCharArray()) {
-                    if (letter == ' ') {
-                        contador += 1;
-                    }
-                }
-                for (int i = 0; i < contador - 1; i++) {
-                    currentCommand = currentCommand.substring(0, currentCommand.lastIndexOf(' '));
-                }
-            }
+        int comment = currentLine.indexOf(";");
+        if(comment != -1) {
+            currentLine = currentLine.substring(0, comment - 1).trim();
         }
-        return currentCommand.trim();
+        else currentLine = currentLine.trim();
+
+        return currentLine;
     }
 
     /**
