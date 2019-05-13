@@ -31,7 +31,7 @@ jmp
 nop
 
 ZeroMaior:
-leaw %0, %A
+leaw $0, %A
 movw (%A), %S
 leaw $2, %A
 movw %S, (%A)

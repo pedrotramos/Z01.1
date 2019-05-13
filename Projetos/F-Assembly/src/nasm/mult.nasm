@@ -13,7 +13,7 @@ decw %D
 
 LOOP:
 decw %D
-leaw %0, %A
+leaw $0, %A
 addw %S, (%A), %S
 leaw $END, %A
 je %D
