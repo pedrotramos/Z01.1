@@ -1,14 +1,14 @@
 /**
  * Curso: Elementos de Sistemas
  * Arquivo: AssemblerZ0.java
- * Created by Luciano Soares <lpsoares@insper.edu.br> 
+ * Created by Luciano Soares <lpsoares@insper.edu.br>
  * Date: 04/02/2017
  */
 
 package assembler;
 
-import java.io.*;
-import java.util.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * Classe principal que orquestra execução do Assembler.
@@ -27,7 +27,7 @@ class AssemblerZ01 {
     static String outputFileHack = null;
     static String outputFileMif = null;
 
-    static private void argsParse (String[] args){
+    static private void argsParse(String[] args) {
         String help = "-i file.nasm -o outFile{.hack .mif} -v verbose -h help";
 
         if (args.length < 2) {  // checa se arquivo foi passado
@@ -72,9 +72,9 @@ class AssemblerZ01 {
         // Starts to read file and generates de outputs
         try {
             // Cria objeto assembler auxiliar
-            Assemble assembler = new Assemble(  inputFile,
-                                                outputFileHack,
-                                                verbose);
+            Assemble assembler = new Assemble(inputFile,
+                    outputFileHack,
+                    verbose);
 
             // Cria tabela de símbolos
             assembler.fillSymbolTable();
@@ -87,11 +87,11 @@ class AssemblerZ01 {
 
             System.exit(0);
 
-        } catch (FileNotFoundException ex){
-        	System.out.println("[ERRO] Arquivo \'" + inputFile + "\' encontrado" + "args: \n " +args[0] + args[1] + args[2]);
+        } catch (FileNotFoundException ex) {
+            System.out.println("[ERRO] Arquivo \'" + inputFile + "\' encontrado" + "args: \n " + args[0] + args[1] + args[2]);
             System.exit(01);
         } catch (IOException ex) {
-        	System.out.println("[ERRO] Uma excessao de i/o foi lancada");
+            System.out.println("[ERRO] Uma excessao de i/o foi lancada");
             System.exit(01);
         }
 

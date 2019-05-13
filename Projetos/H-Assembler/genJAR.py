@@ -48,7 +48,7 @@ def genJAR(f):
 if __name__ == "__main__":
     f = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'Assembler/')
     genJAR(f)
-    r = report('', 'H', 'JAVA')
-    assemblerReport(r, f)
-    print("==== Reporting results =========================")
-    r.send()
+#    r = report('', 'H', 'JAVA')
+#    assemblerReport(r, f)
+#    print("==== Reporting results =========================")
+#    r.send()
