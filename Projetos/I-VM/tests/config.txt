@@ -11,7 +11,7 @@
 2d-Calculadora 1 4000
 
 ###--------------------
-### EXMPLOS: /srcExamples
+### EXEMPLOS: /srcExamples
 ###  - funcoes aritmeticas
 ###  - push/pop
 ###  - parser
