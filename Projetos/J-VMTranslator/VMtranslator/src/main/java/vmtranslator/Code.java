@@ -21,6 +21,7 @@ public class Code {
     PrintWriter outputFile = null;  // arquivo .nasm de saída
     String filename = null;         // arquivo .vm de entrada
     int lineCode = 0;               // Linha do codigo vm que gerou as instrucoes
+    Integer i = 0;
 
     /**
      * Abre o arquivo de saida e prepara para escrever
@@ -36,7 +37,6 @@ public class Code {
      * @param  command comando aritmético a ser analisado.
      */
     public void writeArithmetic(String command) {
-
         if ( command.equals("")) {
             Error.error("Instrução invalida");
         }
@@ -46,29 +46,206 @@ public class Code {
         if(command.equals("add")) {
             commands.add(String.format("; %d - ADD", lineCode++));
 
+            commands.add("leaw $SP,%A");
+            commands.add("movw (%A), %A");
+            commands.add("decw %A");
+            commands.add("movw (%A), %S");
+            commands.add("decw %A");
+            commands.add("movw (%A), %D");
+            commands.add("addw %S, %D, %S");
+            commands.add("movw %S, (%A)");
+            commands.add("movw %A, %D");
+            commands.add("leaw $SP,%A");
+            commands.add("incw %D");
+            commands.add("movw %D, (%A)");
+
         } else if (command.equals("sub")) {
             commands.add(String.format("; %d - SUB", lineCode++));
+
+            commands.add("leaw $SP,%A");
+            commands.add("movw (%A), %A");
+            commands.add("decw %A");
+            commands.add("movw (%A), %S");
+            commands.add("decw %A");
+            commands.add("movw (%A), %D");
+            commands.add("subw %D, %S, %S");
+            commands.add("movw %S, (%A)");
+            commands.add("movw %A, %D");
+            commands.add("leaw $SP,%A");
+            commands.add("incw %D");
+            commands.add("movw %D, (%A)");
 
         } else if (command.equals("neg")) {
             commands.add(String.format("; %d - NEG", lineCode++));
 
+            commands.add("leaw $SP,%A");
+            commands.add("movw (%A), %A");
+            commands.add("decw %A");
+            commands.add("movw (%A),%D");
+            commands.add("negw %D");
+            commands.add("movw %D,(%A)");
+            commands.add("movw %A, %S");
+            commands.add("leaw %SP, %A");
+            commands.add("incw %S");
+            commands.add("movw %S, (%A)");
+
+
         } else if (command.equals("eq")) {
             commands.add(String.format("; %d - EQ", lineCode++));
+
+            commands.add("leaw $SP,%A");
+            commands.add("movw (%A), %A");
+            commands.add("decw %A");
+            commands.add("movw (%A), %D");
+            commands.add("decw %A");
+            commands.add("movw (%A), %S");
+            commands.add("subw %S, %D, %S");
+
+            commands.add("movw %A, %D");
+            commands.add("incw %D");
+            commands.add("leaw $SP, %A");
+            commands.add("movw %D, (%A)");
+
+            commands.add("leaw $EQ" + outputFile + i +", %A");
+            commands.add("je %S");
+            commands.add("nop");
+
+            commands.add("leaw $0, %A");
+            commands.add("movw %A, %S");
+            commands.add("leaw $EQ-END" + outputFile + i + ", %A");
+            commands.add("jmp");
+            commands.add("nop");
+
+            commands.add("EQ" + outputFile + i + ":");
+            commands.add("leaw $65535, %A");
+            commands.add("movw %A, %S");
+
+            commands.add("EQ-END" + outputFile + i + ":");
+            commands.add("leaw $SP, %A");
+            commands.add("movw (%A), %A");
+            commands.add("decw %A");
+            commands.add("movw %S, (%A)");
+            i++;
 
         } else if (command.equals("gt")) {
             commands.add(String.format("; %d - GT", lineCode++));
 
+            commands.add("leaw $SP,%A");
+            commands.add("movw (%A), %A");
+            commands.add("decw %A");
+            commands.add("movw (%A), %D");
+            commands.add("decw %A");
+            commands.add("movw (%A), %S");
+            commands.add("subw %S, %D, %S");
+
+            commands.add("movw %A, %D");
+            commands.add("incw %D");
+            commands.add("leaw $SP, %A");
+            commands.add("movw %D, (%A)");
+
+            commands.add("leaw $GT" + outputFile + i +", %A");
+            commands.add("jg %S");
+            commands.add("nop");
+
+            commands.add("leaw $0, %A");
+            commands.add("movw %A, %S");
+            commands.add("leaw $GT-END" + outputFile + i + ", %A");
+            commands.add("jmp");
+            commands.add("nop");
+
+            commands.add("GT" + outputFile + i + ":");
+            commands.add("leaw $65535, %A");
+            commands.add("movw %A, %S");
+
+            commands.add("GT-END" + outputFile + i + ":");
+            commands.add("leaw $SP, %A");
+            commands.add("movw (%A), %A");
+            commands.add("decw %A");
+            commands.add("movw %S, (%A)");
+            i++;
+
         } else if (command.equals("lt")) {
             commands.add(String.format("; %d - LT", lineCode++));
+
+            commands.add("leaw $SP,%A");
+            commands.add("movw (%A), %A");
+            commands.add("decw %A");
+            commands.add("movw (%A), %D");
+            commands.add("decw %A");
+            commands.add("movw (%A), %S");
+            commands.add("subw %S, %D, %S");
+
+            commands.add("movw %A, %D");
+            commands.add("incw %D");
+            commands.add("leaw $SP, %A");
+            commands.add("movw %D, (%A)");
+
+            commands.add("leaw $LT" + outputFile + i +", %A");
+            commands.add("jl %S");
+            commands.add("nop");
+
+            commands.add("leaw $0, %A");
+            commands.add("movw %A, %S");
+            commands.add("leaw $LT-END" + outputFile + i + ", %A");
+            commands.add("jmp");
+            commands.add("nop");
+
+            commands.add("LT" + outputFile + i + ":");
+            commands.add("leaw $65535, %A");
+            commands.add("movw %A, %S");
+
+            commands.add("LT-END" + outputFile + i + ":");
+            commands.add("leaw $SP, %A");
+            commands.add("movw (%A), %A");
+            commands.add("decw %A");
+            commands.add("movw %S, (%A)");
+            i++;
 
         } else if (command.equals("and")) {
             commands.add(String.format("; %d - AND", lineCode++));
 
+            commands.add("leaw $SP,%A");
+            commands.add("movw (%A), %A");
+            commands.add("decw %A");
+            commands.add("movw (%A), %S");
+            commands.add("decw %A");
+            commands.add("movw (%A), %D");
+            commands.add("andw %D, %S, %S");
+            commands.add("movw %S, (%A)");
+            commands.add("movw %A, %D");
+            commands.add("leaw $SP,%A");
+            commands.add("incw %D");
+            commands.add("movw %D, (%A)");
+
         } else if (command.equals("or")) {
             commands.add(String.format("; %d - OR", lineCode++));
 
+            commands.add("leaw $SP,%A");
+            commands.add("movw (%A), %A");
+            commands.add("decw %A");
+            commands.add("movw (%A), %S");
+            commands.add("decw %A");
+            commands.add("movw (%A), %D");
+            commands.add("orw %D, %S, %S");
+            commands.add("movw %S, (%A)");
+            commands.add("movw %A, %D");
+            commands.add("leaw $SP,%A");
+            commands.add("incw %D");
+            commands.add("movw %D, (%A)");
+
         } else if (command.equals("not")) {
             commands.add(String.format("; %d - NOT", lineCode++));
+
+            commands.add("leaw $SP,%A");
+            commands.add("movw (%A), %A");
+            commands.add("decw %A");
+            commands.add("movw (%A),%D");
+            commands.add("notw %D");
+            commands.add("movw %D,(%A)");
+            commands.add("movw %A, %S");
+            commands.add("leaw %SP, %A");
+            commands.add("incw %S");
+            commands.add("movw %S, (%A)");
 
         }
 
@@ -96,23 +273,129 @@ public class Code {
             commands.add(String.format("; %d - POP %s %d", lineCode++ ,segment, index));
 
             if (segment.equals("constant")) {
+
                 Error.error("Não faz sentido POP com constant");
+
             } else if (segment.equals("local")) {
+
+                commands.add("leaw $SP,%A");
+                commands.add("movw (%A), %D");
+                commands.add("decw %D");
+                commands.add("movw %D, (%A)");
+                commands.add("movw (%A), %A");
+                commands.add("movw (%A), %D");
+
+                commands.add("leaw $" + index + ", %A");
+                commands.add("movw %A,%S");
+
+                commands.add("leaw $LCL,%A");
+                commands.add("movw (%A),%A");
+                commands.add("addw %A, %S, %A");
+                commands.add("movw %D, (%A)");
 
             } else if (segment.equals("argument")) {
 
+                commands.add("leaw $SP,%A");
+                commands.add("movw (%A), %D");
+                commands.add("decw %D");
+                commands.add("movw %D, (%A)");
+                commands.add("movw (%A), %A");
+                commands.add("movw (%A), %D");
+
+                commands.add("leaw $" + index + ", %A");
+                commands.add("movw %A,%S");
+
+                commands.add("leaw $ARG,%A");
+                commands.add("movw (%A),%A");
+                commands.add("addw %A, %S, %A");
+                commands.add("movw %D, (%A)");
+
             } else if (segment.equals("this")) {
+
+                commands.add("leaw $SP,%A");
+                commands.add("movw (%A), %D");
+                commands.add("decw %D");
+                commands.add("movw %D, (%A)");
+                commands.add("movw (%A), %A");
+                commands.add("movw (%A), %D");
+
+                commands.add("leaw $" + index + ", %A");
+                commands.add("movw %A,%S");
+
+                commands.add("leaw $THIS,%A");
+                commands.add("movw (%A),%A");
+                commands.add("addw %A, %S, %A");
+                commands.add("movw %D, (%A)");
 
             } else if (segment.equals("that")) {
 
+                commands.add("leaw $SP,%A");
+                commands.add("movw (%A), %D");
+                commands.add("decw %D");
+                commands.add("movw %D, (%A)");
+                commands.add("movw (%A), %A");
+                commands.add("movw (%A), %D");
+
+                commands.add("leaw $" + index + ", %A");
+                commands.add("movw %A,%S");
+
+                commands.add("leaw $THAT,%A");
+                commands.add("movw (%A),%A");
+                commands.add("addw %A, %S, %A");
+                commands.add("movw %D, (%A)");
+
             } else if (segment.equals("static")) {
 
+                commands.add("leaw $SP,%A");
+                commands.add("movw (%A), %D");
+                commands.add("decw %D");
+                commands.add("movw %D, (%A)");
+                commands.add("movw (%A), %A");
+                commands.add("movw (%A), %D");
+
+                commands.add("leaw $" + outputFile + index + ",%A");
+                commands.add("movw %D,(%A)");
+
             } else if (segment.equals("temp")) {
+
+                commands.add("leaw $SP,%A");
+                commands.add("movw (%A), %D");
+                commands.add("decw %D");
+                commands.add("movw %D, (%A)");
+                commands.add("movw (%A), %A");
+                commands.add("movw (%A), %D");
+
+                commands.add("leaw $" + index +", %A");
+                commands.add("movw %A, %S");
+                commands.add("leaw $5, %A");
+                commands.add("addw %A, %S, %S");
+                commands.add("movw %S, %A");
+                commands.add("movw %D, (%A)");
 
             } else if (segment.equals("pointer")) {
                 if(index==0) {
 
+                    commands.add("leaw $SP,%A");
+                    commands.add("movw (%A), %D");
+                    commands.add("decw %D");
+                    commands.add("movw %D, (%A)");
+                    commands.add("movw (%A), %A");
+                    commands.add("movw (%A), %D");
+
+                    commands.add("leaw $THIS,%A");
+                    commands.add("movw %D, (%A)");
+
                 } else {
+
+                    commands.add("leaw $SP,%A");
+                    commands.add("movw (%A), %D");
+                    commands.add("decw %D");
+                    commands.add("movw %D, (%A)");
+                    commands.add("movw (%A), %A");
+                    commands.add("movw (%A), %D");
+
+                    commands.add("leaw $THAT,%A");
+                    commands.add("movw %D, (%A)");
 
                 }
             }
@@ -120,23 +403,155 @@ public class Code {
             commands.add(String.format("; %d - PUSH %s %d", lineCode++ ,segment, index));
 
             if (segment.equals("constant")) {
+
+                commands.add("leaw $"+ index + ", %A");
+                commands.add("movw %A,%S");
+
+                commands.add("leaw $SP,%A");
+                commands.add("movw (%A),%A");
+                commands.add("movw %S,(%A)");
+
+                commands.add("leaw $SP,%A");
+                commands.add("movw (%A),%D");
+                commands.add("incw %D");
+                commands.add("movw %D, (%A)");
                
             } else if (segment.equals("local")) {
 
+                commands.add("leaw $" + index + ", %A");
+                commands.add("movw %A,%S");
+
+                commands.add("leaw $LCL,%A");
+                commands.add("movw (%A),%A");
+                commands.add("addw %A, %S, %A");
+                commands.add("movw (%A), %D");
+
+                commands.add("leaw $SP, %A");
+                commands.add("movw (%A), %A");
+                commands.add("movw %D, (%A)");
+
+                commands.add("leaw $SP,%A");
+                commands.add("movw (%A),%D");
+                commands.add("incw %D");
+                commands.add("movw %D, (%A)");
+
             } else if (segment.equals("argument")) {
+
+                commands.add("leaw $" + index + ", %A");
+                commands.add("movw %A,%S");
+
+                commands.add("leaw $ARG,%A");
+                commands.add("movw (%A),%A");
+                commands.add("addw %A, %S, %A");
+                commands.add("movw (%A), %D");
+
+                commands.add("leaw $SP, %A");
+                commands.add("movw (%A), %A");
+                commands.add("movw %D, (%A)");
+
+                commands.add("leaw $SP,%A");
+                commands.add("movw (%A),%D");
+                commands.add("incw %D");
+                commands.add("movw %D, (%A)");
 
             } else if (segment.equals("this")) {
 
+                commands.add("leaw $" + index + ", %A");
+                commands.add("movw %A,%S");
+
+                commands.add("leaw $THIS,%A");
+                commands.add("movw (%A),%A");
+                commands.add("addw %A, %S, %A");
+                commands.add("movw (%A), %D");
+
+                commands.add("leaw $SP, %A");
+                commands.add("movw (%A), %A");
+                commands.add("movw %D, (%A)");
+
+                commands.add("leaw $SP,%A");
+                commands.add("movw (%A),%D");
+                commands.add("incw %D");
+                commands.add("movw %D, (%A)");
+
             } else if (segment.equals("that")) {
+
+                commands.add("leaw $" + index + ", %A");
+                commands.add("movw %A,%S");
+
+                commands.add("leaw $THAT,%A");
+                commands.add("movw (%A),%A");
+                commands.add("addw %A, %S, %A");
+                commands.add("movw (%A), %D");
+
+                commands.add("leaw $SP, %A");
+                commands.add("movw (%A), %A");
+                commands.add("movw %D, (%A)");
+
+                commands.add("leaw $SP,%A");
+                commands.add("movw (%A),%D");
+                commands.add("incw %D");
+                commands.add("movw %D, (%A)");
 
             } else if (segment.equals("static")) {
 
+                commands.add("leaw $" + outputFile + index + ", %A");
+                commands.add("movw %A,%S");
+
+                commands.add("leaw $SP, %A");
+                commands.add("movw (%A), %A");
+                commands.add("movw %S, (%A)");
+
+                commands.add("leaw $SP,%A");
+                commands.add("movw (%A),%D");
+                commands.add("incw %D");
+                commands.add("movw %D, (%A)");
+
             } else if (segment.equals("temp")) {
+
+                commands.add("leaw $" + index +", %A");
+                commands.add("movw %A, %S");
+                commands.add("leaw $5, %A");
+                commands.add("addw %A, %S, %S");
+                commands.add("movw %S, %A");
+                commands.add("movw (%A), %S");
+
+                commands.add("leaw $SP, %A");
+                commands.add("movw (%A), %A");
+                commands.add("movw %S, (%A)");
+
+                commands.add("leaw $SP,%A");
+                commands.add("movw (%A),%D");
+                commands.add("incw %D");
+                commands.add("movw %D, (%A)");
 
             } else if (segment.equals("pointer")) {
                 if(index==0) {
 
+                    commands.add("leaw $THIS,%A");
+                    commands.add("movw (%A), %D");
+
+                    commands.add("leaw $SP, %A");
+                    commands.add("movw (%A), %A");
+                    commands.add("movw %D, (%A)");
+
+                    commands.add("leaw $SP,%A");
+                    commands.add("movw (%A),%D");
+                    commands.add("incw %D");
+                    commands.add("movw %D, (%A)");
+
                 } else {
+
+                    commands.add("leaw $THAT,%A");
+                    commands.add("movw (%A), %D");
+
+                    commands.add("leaw $SP, %A");
+                    commands.add("movw (%A), %A");
+                    commands.add("movw %D, (%A)");
+
+                    commands.add("leaw $SP,%A");
+                    commands.add("movw (%A),%D");
+                    commands.add("incw %D");
+                    commands.add("movw %D, (%A)");
 
                 }
             }
@@ -189,6 +604,8 @@ public class Code {
         List<String> commands = new ArrayList<String>();
         commands.add( "; Label (marcador)" );
 
+        commands.add("leaw $" + label + ", %A");
+
     }
 
     /**
@@ -200,6 +617,10 @@ public class Code {
 
         List<String> commands = new ArrayList<String>();
         commands.add(String.format("; %d - Goto Incondicional", lineCode++));
+
+        commands.add("leaw $" + label + ", %A");
+        commands.add("jmp");
+        commands.add("nop");
 
     }
 
