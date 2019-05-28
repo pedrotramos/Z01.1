@@ -45,5 +45,6 @@ SimpleLt 1 300
 #
 StackTest 1 3000
 #StaticsTest 1 3000
+StaticTest 1 3000
 #SimpleFunction 1 300
 #Mult 1 4000

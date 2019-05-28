@@ -22,6 +22,7 @@ public class Code {
     String filename = null;         // arquivo .vm de entrada
     int lineCode = 0;               // Linha do codigo vm que gerou as instrucoes
     Integer i = 0;
+    Integer j = 0;
 
     /**
      * Abre o arquivo de saida e prepara para escrever
@@ -495,11 +496,11 @@ public class Code {
             } else if (segment.equals("static")) {
 
                 commands.add("leaw $" + outputFile + index + ", %A");
-                commands.add("movw %A,%S");
+                commands.add("movw (%A),%D");
 
                 commands.add("leaw $SP, %A");
                 commands.add("movw (%A), %A");
-                commands.add("movw %S, (%A)");
+                commands.add("movw %D, (%A)");
 
                 commands.add("leaw $SP,%A");
                 commands.add("movw (%A),%D");
@@ -604,7 +605,11 @@ public class Code {
         List<String> commands = new ArrayList<String>();
         commands.add( "; Label (marcador)" );
 
-        commands.add("leaw $" + label + ", %A");
+        commands.add(outputFile + label  + ":");
+
+        String[] stringArray = new String[ commands.size() ];
+        commands.toArray( stringArray );
+        write(stringArray);
 
     }
 
@@ -618,10 +623,13 @@ public class Code {
         List<String> commands = new ArrayList<String>();
         commands.add(String.format("; %d - Goto Incondicional", lineCode++));
 
-        commands.add("leaw $" + label + ", %A");
+        commands.add("leaw $" + outputFile + label + ", %A");
         commands.add("jmp");
         commands.add("nop");
 
+        String[] stringArray = new String[ commands.size() ];
+        commands.toArray( stringArray );
+        write(stringArray);
     }
 
     /**
@@ -634,6 +642,20 @@ public class Code {
         List<String> commands = new ArrayList<String>();
         commands.add(String.format("; %d - Goto Condicional", lineCode++));
 
+        commands.add("leaw $SP, %A");
+        commands.add("movw (%A), %D");
+        commands.add("decw %D");
+        commands.add("movw %D, (%A)");
+        commands.add("movw (%A), %A");
+        commands.add("movw (%A), %D");
+        commands.add("notw %D");
+        commands.add("leaw $" + outputFile + label + ", %A");
+        commands.add("je %D");
+        commands.add("nop");
+
+        String[] stringArray = new String[ commands.size() ];
+        commands.toArray( stringArray );
+        write(stringArray);
      }
 
     /**
@@ -646,6 +668,11 @@ public class Code {
         List<String> commands = new ArrayList<String>();
         commands.add(String.format("; %d - chamada de funcao %s", lineCode++, functionName));
 
+
+
+        String[] stringArray = new String[ commands.size() ];
+        commands.toArray( stringArray );
+        write(stringArray);
     }
 
     /**
@@ -656,6 +683,11 @@ public class Code {
         List<String> commands = new ArrayList<String>();
         commands.add(String.format("; %d - Retorno de função", lineCode++));
 
+
+
+        String[] stringArray = new String[ commands.size() ];
+        commands.toArray( stringArray );
+        write(stringArray);
     }
 
     /**
@@ -668,6 +700,12 @@ public class Code {
         List<String> commands = new ArrayList<String>();
         commands.add(String.format("; %d - Declarando função %s", lineCode++, functionName));
 
+        j++;
+        commands.add(filename + "-" + j +  ":");
+
+        String[] stringArray = new String[ commands.size() ];
+        commands.toArray( stringArray );
+        write(stringArray);
     }
 
     /**
