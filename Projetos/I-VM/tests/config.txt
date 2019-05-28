@@ -38,9 +38,9 @@ SimplePushAdd 1 300
 SimplePushArg 1 300
 #
 SimpleEq 3 300
-#SimpleGoto 1 300
+SimpleGoto 1 300
 SimpleGt 3 300
-#SimpleIfGoto 1 300
+SimpleIfGoto 1 300
 SimpleLt 1 300
 #
 StackTest 1 3000
