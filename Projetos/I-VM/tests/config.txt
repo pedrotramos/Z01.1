@@ -2,13 +2,13 @@
 ## Entrega 
 ##--------------------
 
-#1a-Add 1 400
-#1b-Add 1 400
-#1c-Div 1 4000
-#2a-Calculadora 1 4000
-#2b-Calculadora 1 4000
-#2c-Calculadora 1 4000
-#2d-Calculadora 1 4000
+1a-Add 1 400
+1b-Add 1 400
+1c-Div 1 4000
+2a-Calculadora 1 4000
+2b-Calculadora 1 4000
+2c-Calculadora 1 4000
+2d-Calculadora 1 4000
 
 ###--------------------
 ### EXEMPLOS: /srcExamples
@@ -44,7 +44,7 @@ SimpleIfGoto 1 300
 SimpleLt 1 300
 #
 StackTest 1 3000
-#StaticsTest 1 3000
+StaticsTest 1 3000
 StaticTest 1 3000
-#SimpleFunction 1 300
-#Mult 1 4000
+SimpleFunction 1 300
+Mult 1 4000
