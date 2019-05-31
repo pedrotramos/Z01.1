@@ -853,8 +853,21 @@ public class Code {
         List<String> commands = new ArrayList<String>();
         commands.add(String.format("; %d - Declarando função %s", lineCode++, functionName));
 
-        j++;
-        commands.add(filename + "-" + j +  ":");
+        //Declare a label for the function entry (f)
+        commands.add(functionName + ":");
+
+        //repeat k times (k = number of local variables)
+        for (int i=0; i<numLocals; i++){
+            commands.add("leaw $0, %A");
+            commands.add("movw %A, %D");
+            commands.add("leaw $SP, %A");
+            commands.add("movw (%A), %A");
+            commands.add("movw %D, (%A)");
+            commands.add("leaw $SP, %A");
+            commands.add("movw (%A), %D");
+            commands.add("incw %D");
+            commands.add("movw %D, (%A)");
+        }
 
         String[] stringArray = new String[ commands.size() ];
         commands.toArray( stringArray );
