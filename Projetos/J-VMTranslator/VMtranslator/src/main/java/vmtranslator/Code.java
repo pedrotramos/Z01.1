@@ -683,7 +683,81 @@ public class Code {
         List<String> commands = new ArrayList<String>();
         commands.add(String.format("; %d - Retorno de função", lineCode++));
 
+        //FRAME = LCL
+        commands.add("leaw $LCL, %A");
+        commands.add("movw (%A), %D");
+        commands.add("leaw $13, %A");
+        commands.add("movw %D, (%A)");
 
+        //RET = *(FRAME-5)
+        commands.add("leaw $5, %A");
+        commands.add("subw %D, %A, %A");
+        commands.add("movw (%A), %D");
+
+        //*ARG = pop()
+        commands.add("leaw $14, %A");
+        commands.add("movw %D, (%A)");
+        commands.add("leaw $ARG, %A");
+        commands.add("movw (%A), %D");
+        commands.add("leaw $15, %A");
+        commands.add("movw %D, (%A)");
+        commands.add("leaw $SP, %A");
+        commands.add("movw (%A), %D");
+        commands.add("decw %D");
+        commands.add("movw %D, (%A)");
+        commands.add("movw %D, %A");
+        commands.add("movw (%A), %D");
+        commands.add("leaw $15, %A");
+        commands.add("movw (%A), %A");
+        commands.add("movw %D, (%A)");
+
+        //SP = ARG+1
+        commands.add("leaw $ARG, %A");
+        commands.add("movw (%A), %D");
+        commands.add("leaw $SP, %A");
+        commands.add("addw %D, $1, (%A)");
+
+        //THAT = *(FRAME-1)
+        commands.add("leaw $13, %A");
+        commands.add("subw (%A), $1, %D");
+        commands.add("movw %D, (%A)");
+        commands.add("movw %D, %A");
+        commands.add("movw (%A), %D");
+        commands.add("leaw $THAT, %A");
+        commands.add("movw %D, (%A)");
+
+        //THIS = *(FRAME-2)
+        commands.add("leaw $13, %A");
+        commands.add("subw (%A), $1, %D");
+        commands.add("movw %D, (%A)");
+        commands.add("movw %D, %A");
+        commands.add("movw (%A), %D");
+        commands.add("leaw $THIS, %A");
+        commands.add("movw %D, (%A)");
+
+        //ARG = *(FRAME-3)
+        commands.add("leaw $13, %A");
+        commands.add("subw (%A), $1, %D");
+        commands.add("movw %D, (%A)");
+        commands.add("movw %D, %A");
+        commands.add("movw (%A), %D");
+        commands.add("leaw $ARG, %A");
+        commands.add("movw %D, (%A)");
+
+        //LCL = *(FRAME-4)
+        commands.add("leaw $13, %A");
+        commands.add("subw (%A), $1, %D");
+        commands.add("movw %D, (%A)");
+        commands.add("movw %D, %A");
+        commands.add("movw (%A), %D");
+        commands.add("leaw $LCL, %A");
+        commands.add("movw %D, (%A)");
+
+        //goto RET
+        commands.add("leaw $14, %A");
+        commands.add("movw (%A), %A");
+        commands.add("jmp");
+        commands.add("nop");
 
         String[] stringArray = new String[ commands.size() ];
         commands.toArray( stringArray );
