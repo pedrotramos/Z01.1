@@ -28,7 +28,7 @@ if __name__ == "__main__":
         bs = False
 
     pwd = os.path.dirname(os.path.abspath(__file__))
-    vmDir = pwd+"/src/vm/"
+    vmDir = pwd+"/../I-VM/src/vm/"
     vmExDir = pwd+"/../I-VM/src/vmExamples/"
     nasmDir = pwd+"/bin/nasm/"
     jar = pwd+'/VMtranslator/Z01-VMTranslator.jar'
