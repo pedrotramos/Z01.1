@@ -7,7 +7,7 @@ function pow 3
 	pop local 2
 
 label loop
-	push local 0 9
+	push local 0
 	push local 1
 	call mult 2
 	pop local 0
